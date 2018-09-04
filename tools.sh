@@ -77,7 +77,7 @@ OPTIONS
 
 EXAMPLES
     # Run directly from after creating account and logging into the server via root 
-    # bash <(curl -sSL https://raw.githubusercontent.com/magescale/vultr/master/tools.sh setupSystemUserDockerAndDockerCompose) 
+    bash <(curl -sSL https://raw.githubusercontent.com/magescale/vultr/master/tools.sh) setupSystemUserDockerAndDockerCompose
 
     # Setup system user, docker
     sh tool.sh setupSystemUserAndDocker
