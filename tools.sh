@@ -8,6 +8,12 @@ set -x
 
 
 setupSystemUser() {
+
+  # Install base packages to get going
+  cd /usr/local/src
+  apt-get install tmux git vim
+  git clone https://github.com/magescale/vultr.git
+  cd vult
   
   # Make sure to run as root
   user="$(id -un 2>/dev/null || true)"
@@ -79,9 +85,16 @@ OPTIONS
     installDockerCompose 	Install Docker Compose
 
 EXAMPLES
-    e.g Deploy Code to staging
+    # Run directly from after creating account and logging into the server via root 
+    # bash <(curl -sSL https://raw.githubusercontent.com/magescale/vultr/master/tools.sh) 
+
+    # Setup system user
     # sh tools.sh setupSystemUser
+
+    # Install Docker
     # sh tools.sh installDocker 
+
+    # Install Docker Compose
     # sh tools.sh installDockerCompose 
 
 "
