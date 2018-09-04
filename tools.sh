@@ -51,7 +51,7 @@ installDockerCompose() {
 
 
 case "$1" in
-  setupSystemUserAndDockerAndDockerCompose)
+  setupSystemUserDockerAndDockerCompose)
     setupSystemUserAndDocker
     installDockerCompose
     ;;
