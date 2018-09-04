@@ -9,9 +9,11 @@ set -x
 
 setupSystemUser() {
 
-  # Install base packages to get going
+  # Update system
+  apt-get update
+  apt-get upgrade
   cd /usr/local/src
-  apt-get install tmux git vim
+  apt-get -y install tmux git vim
   git clone https://github.com/magescale/vultr.git
   cd vult
   
@@ -26,10 +28,6 @@ setupSystemUser() {
   # Collect hostname
   echo "Please enter the username"
   read username
-
-  # Update system
-  apt-get update
-  apt-get upgrade
 
   # Install Docker
   curl -sSL https://get.docker.com/ | sh
