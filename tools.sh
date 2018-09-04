@@ -1,13 +1,13 @@
 #!/bin/bash
+
 # description: Setup VULTR for user, create system user install  docker, docker-compose
 # Environment settings
+
 INSTALL_DIR=`echo $0 | sed 's/tools\.sh//g'`
 set -x
 
 
-
-
-setupSystemUser() {
+setupSystemUserAndDocker() {
 
   # Update system
   apt-get update
@@ -36,37 +36,30 @@ setupSystemUser() {
   useradd -m -G sudo,docker -s /bin/bash $username
   echo $username:password | chpasswd
 
-  # Install Docker compose
-  curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
-  chmod +x /usr/local/bin/docker-compose
-  curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose --version | awk 'NR==1{print $NF}')/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose
-}
-
-
-installDocker() {
-  ls
 }
 
 
 installDockerCompose() {
-  ls
+
+  # Install Docker compose
+  curl -L https://github.com/docker/compose/releases/download/1.21.2/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+  chmod +x /usr/local/bin/docker-compose
+  curl -L https://raw.githubusercontent.com/docker/compose/$(docker-compose --version | awk 'NR==1{print $NF}')/contrib/completion/bash/docker-compose > /etc/bash_completion.d/docker-compose
+  
 }
 
 
 
-
 case "$1" in
-  setupSystemUser)
-    setupSystemUser
-    echo "setupSystemUser"
+  setupSystemUserAndDockerAndDockerCompose)
+    setupSystemUserAndDocker
+    installDockerCompose
     ;;
-  installDocker)
-    installDocker
-    echo "installDocker"
+  setupSystemUserAndDocker)
+    setupSystemUserAndDocker
     ;;
   installDockerCompose)
     installDockerCompose
-    echo "installDockerCompose"
     ;;
   *)
 echo "
@@ -78,16 +71,19 @@ DESCRIPTION
     Setup access user, install docker, docker-compose 
 
 OPTIONS
-    setupSystemUser             Setup user to access the system
-    installDocker               Install Docker
-    installDockerCompose 	Install Docker Compose
+    setupSystemUserDockerAndDockerCompose     Setup system user, install docker & docker-compose
+    setupSystemUserAndDocker                  Setup system user, install docker
+    installDockerCompose                      Install docker-compose
 
 EXAMPLES
     # Run directly from after creating account and logging into the server via root 
-    # bash <(curl -sSL https://raw.githubusercontent.com/magescale/vultr/master/tools.sh) 
+    # bash <(curl -sSL https://raw.githubusercontent.com/magescale/vultr/master/tools.sh setupSystemUserDockerAndDockerCompose) 
 
-    # Setup system user
-    # sh tools.sh setupSystemUser
+    # Setup system user, docker
+    sh tool.sh setupSystemUserAndDocker
+
+    # Setup system user, docker
+    sh tool.sh setupSystemUserAndDocker
 
     # Install Docker
     # sh tools.sh installDocker 
