@@ -49,6 +49,20 @@ installDockerCompose() {
 }
 
 
+installRcLocalService () {
+
+  echo  "Create a service:"
+  cp rc-local.service /etc/systemd/system/rc-local.service
+  
+  echo "Create and make sure /etc/rc.local is executable and add this code inside it:"
+  cp rc.local /etc
+  sudo chmod +x /etc/rc.local
+  
+  echo "Enable the service:"
+  sudo systemctl enable rc-local
+
+}
+
 
 case "$1" in
   setupSystemUserDockerAndDockerCompose)
@@ -61,6 +75,9 @@ case "$1" in
   installDockerCompose)
     installDockerCompose
     ;;
+  installRcLocalService)
+    installRcLocalService
+    ;;  
   *)
 echo "
 SYNOPSIS
@@ -74,7 +91,7 @@ OPTIONS
     setupSystemUserDockerAndDockerCompose     Setup system user, install docker & docker-compose
     setupSystemUserAndDocker                  Setup system user, install docker
     installDockerCompose                      Install docker-compose
-
+    installRcLocalService                     Install /etc/rc.local to run commands when the system is rebooted.
 EXAMPLES
     # Run directly from after creating account and logging into the server via root 
     bash <(curl -sSL https://raw.githubusercontent.com/magescale/vultr/master/tools.sh) setupSystemUserDockerAndDockerCompose
